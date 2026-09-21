@@ -1,0 +1,8 @@
+#!/bin/sh
+
+mkdir libs
+
+# Fetch nob.h
+VERSION="v3.10.0"
+
+curl https://raw.githubusercontent.com/tsoding/nob.h/${VERSION}/nob.h -o libs/nob.h
