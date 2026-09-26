@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
   Cmd cmd = {0};
 
   nob_cc(&cmd);
+  nob_cc_flags(&cmd);
   nob_cc_output(&cmd, BUILD_DIR "rcc");
 
   nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "utils/array.c",
