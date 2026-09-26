@@ -6,9 +6,10 @@
 typedef enum { ResultOk, ResultErr } ResultKind;
 
 typedef struct {
+  uint8_t _;
 } Empty;
 
-#define MK_EMPTY ((Empty){})
+#define MK_EMPTY ((Empty){0})
 
 #define DEF_RESULT(name, ok_type, err_type)                                    \
   typedef struct {                                                             \
