@@ -7,7 +7,7 @@
 #define BUILD_DIR "build/"
 #define SRC_DIR "src/"
 
-static void fail(char *message) {
+static void fail(const char *message) {
   puts(message);
   exit(EXIT_FAILURE);
 }
@@ -23,7 +23,9 @@ int main(int argc, char *argv[]) {
   nob_cc(&cmd);
   nob_cc_output(&cmd, BUILD_DIR "rcc");
 
-  nob_cc_inputs(&cmd, SRC_DIR "main.c");
+  nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "utils/array.c",
+                SRC_DIR "lexer.c", SRC_DIR "utils/misc.c",
+                SRC_DIR "utils/fs.c");
 
   if (!cmd_run(&cmd))
     fail("Failed to execute build command");
