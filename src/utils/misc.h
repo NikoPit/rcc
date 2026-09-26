@@ -2,5 +2,6 @@
 #define RCC_MISC_H
 
 void fail(const char *message);
+void unreachable();
 
 #endif

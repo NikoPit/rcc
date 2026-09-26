@@ -7,3 +7,5 @@ void fail(const char *message) {
   fputs(message, stderr);
   abort();
 }
+
+void unreachable() { fail("Unreachable statement reached"); }
