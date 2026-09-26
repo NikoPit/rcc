@@ -104,6 +104,10 @@ Array lex(const char *code) {
       expect(&state, "int");
       array_push(&state.tokens, Token, payloadless_token(TokenInt));
       break;
+    case 'r':
+      expect(&state, "return");
+      array_push(&state.tokens, Token, payloadless_token(TokenReturn));
+      break;
 
     case ' ':
     case '\n':

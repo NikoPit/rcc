@@ -13,6 +13,8 @@ typedef enum {
 
   TokenIdent,
 
+  TokenReturn,
+
   TokenLeftBrace,
   TokenRightBrace,
   TokenLeftParen,
