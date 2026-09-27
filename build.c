@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
 
   nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "utils/array.c",
                 SRC_DIR "lexer.c", SRC_DIR "utils/misc.c",
+                SRC_DIR "utils/string.c",
                 SRC_DIR "utils/fs.c");
 
   if (!cmd_run(&cmd))
