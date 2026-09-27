@@ -47,8 +47,7 @@ void array_set_inner(Array *array, size_t index, void *value);
 /* Pushes `value` to the end of `array`. */
 void array_push_inner(Array *array, void *value);
 
-#define array_get(array, type, index)                                          \
-  (type) * ((type *)array_get_inner(array, index))
+#define array_get(array, type, index) (*(type *)array_get_inner(array, index))
 
 /* Returns the pointer to `index` in `array`. */
 void *array_get_inner(Array *array, size_t index);
