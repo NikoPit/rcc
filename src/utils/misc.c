@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void fail(const char *message) {
+RCC_NORETURN void fail(const char *message) {
   fputs(message, stderr);
   abort();
 }
 
-void unreachable() { fail("Unreachable statement reached"); }
+RCC_NORETURN void unreachable() { fail("Unreachable statement reached"); }
