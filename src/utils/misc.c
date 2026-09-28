@@ -5,6 +5,8 @@
 
 RCC_NORETURN void fail(const char *message) {
   fputs(message, stderr);
+  fputc('\n', stderr);
+
   abort();
 }
 
