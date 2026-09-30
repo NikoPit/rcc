@@ -18,7 +18,7 @@ static FileSizeResult file_size(FILE *file) {
 }
 
 /* Reads the entire file at `path`. */
-ReadFileResult read_file(char *path) {
+ReadFileResult read_file(const char *path) {
   FILE *file = fopen(path, "rb");
   char *content = NULL;
 

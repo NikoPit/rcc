@@ -5,6 +5,6 @@
 
 DEF_RESULT(ReadFile, char *, Empty);
 
-ReadFileResult read_file(char *path);
+ReadFileResult read_file(const char *path);
 
 #endif
