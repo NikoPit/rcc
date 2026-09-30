@@ -1,5 +1,6 @@
 #include "fs.h"
 #include "result.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -47,5 +48,5 @@ err:
   if (content != NULL)
     free(content);
 
-  return RESULT_ERR(ReadFileResult, MK_EMPTY);
+  return RESULT_ERR(ReadFileResult, errno);
 }

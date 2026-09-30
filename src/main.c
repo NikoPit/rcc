@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "lexer/lexer.h"
 #include "utils/fs.h"
@@ -11,13 +12,18 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  EXTRACT_OK(ReadFileResult, read_file(argv[1]), char *, content, {
-    perror("reading input file");
-    return EXIT_FAILURE;
-  });
+  ReadFileResult file_content_res = read_file(argv[1]);
 
-  Array tokens = lex(content);
-  free(content);
+  if (file_content_res.kind == ResultErr) {
+    fprintf(stderr, "reading input file: %s\n",
+            strerror(file_content_res.err /* errno */));
+    return EXIT_FAILURE;
+  }
+
+  char *file_content = file_content_res.ok;
+
+  Array tokens = lex(file_content);
+  free(file_content);
 
   return EXIT_SUCCESS;
 }

@@ -3,7 +3,7 @@
 
 #include "result.h"
 
-DEF_RESULT(ReadFile, char *, Empty);
+DEF_RESULT(ReadFile, char *, int /* errno */);
 
 ReadFileResult read_file(const char *path);
 
