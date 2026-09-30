@@ -1,11 +1,6 @@
 #include "array.h"
 #include "misc.h"
 
-/* Creates a new array with the size of `BASE_ARRAY_SIZE`, with `element_size`
- * as the size per element, in bytes.
- *
- * Private interface. Use `create_array` instead, which takes the type, instead
- * of the size of that type */
 #define BASE_ARRAY_SIZE 16
 Array create_array_with_size(size_t element_size) {
   void *base = malloc(element_size * BASE_ARRAY_SIZE);
@@ -21,15 +16,10 @@ Array create_array_with_size(size_t element_size) {
   return array;
 }
 
-/* Returns the address of `index` in `array`. */
 static void *array_slot_at(Array *array, size_t index) {
   return (char *)array->base + (index * array->element_size);
 }
 
-/* Doubles the capacity of `array` and allocates memory for the new capcity.
- *
- * Private interface, do not use. Using `array_set` / `array_push` will
- * automatically expand the array if the capacity is not enough. */
 static void expand_array(Array *array) {
   array->capacity *= 2;
 
@@ -40,10 +30,7 @@ static void expand_array(Array *array) {
   array->base = new_base;
 }
 
-/* Sets `index` of `array` as `value`.
- *
- * Private interface. Use `array_set` instead. */
-void array_set_inner(Array *array, size_t index, void *value) {
+void array_set_ptr(Array *array, size_t index, void *value) {
   while (index >= array->capacity)
     expand_array(array);
 
@@ -54,13 +41,11 @@ void array_set_inner(Array *array, size_t index, void *value) {
     array->len = index + 1;
 }
 
-/* Pushes `value` to the end of `array`. */
-void array_push_inner(Array *array, void *value) {
-  array_set_inner(array, array->len, value);
+void array_push_ptr(Array *array, void *value) {
+  array_set_ptr(array, array->len, value);
 }
 
-/* Returns the pointer to `index` in `array`. */
-void *array_get_inner(Array *array, size_t index) {
+void *array_get_ptr(Array *array, size_t index) {
   if (index >= array->len)
     panic("array: index out of bounds");
 
