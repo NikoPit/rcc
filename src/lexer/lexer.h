@@ -4,5 +4,6 @@
 #include "../utils/array.h"
 
 Array lex(const char *code);
+void free_tokens(Array *tokens);
 
 #endif

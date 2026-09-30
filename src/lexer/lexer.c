@@ -110,3 +110,14 @@ Array lex(const char *code) {
 
   return tokens;
 }
+
+void free_tokens(Array *tokens) {
+  /* Free the cloned idents */
+  for (size_t i = 0; i < tokens->len; i++) {
+    Token *token = array_get_ptr(tokens, i);
+    if (token->kind == TokenIdent)
+      free(token->ident);
+  }
+
+  destroy_array(tokens);
+}
