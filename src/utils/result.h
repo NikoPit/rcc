@@ -18,7 +18,7 @@ typedef struct {
       ok_type ok;                                                              \
       err_type err;                                                            \
     };                                                                         \
-  } name##Result;
+  } name##Result
 
 #define EXTRACT_OK(result_type, result_expr, ok_type, ok_var_name, err)        \
   result_type _rcc_tmp_result_##ok_var_name = result_expr;                     \
