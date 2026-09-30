@@ -19,7 +19,7 @@ static FileSizeResult file_size(FILE *file) {
 
 /* Reads the entire file at `path`. */
 ReadFileResult read_file(char *path) {
-  FILE *file = fopen(path, "r");
+  FILE *file = fopen(path, "rb");
 
   if (file == NULL)
     return RESULT_ERR(ReadFileResult, MK_EMPTY);
