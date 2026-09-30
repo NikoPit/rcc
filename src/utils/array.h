@@ -1,6 +1,7 @@
 #ifndef RCC_UTILS_ARRAY_H
 #define RCC_UTILS_ARRAY_H
 
+#include "misc.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -40,7 +41,7 @@ void array_set_inner(Array *array, size_t index, void *value);
     type _rcc_array_push_tmp_value_ = value;                                   \
     /* Type that your trying to push doesn't match the type of this array. */  \
     if (sizeof(type) != (array)->element_size)                                 \
-      abort();                                                                 \
+      panic("array: element type mismatch");                                   \
     array_push_inner(array, &_rcc_array_push_tmp_value_);                      \
   } while (0)
 

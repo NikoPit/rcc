@@ -1,10 +1,5 @@
-#ifndef RCC_LEXER_H
-#define RCC_LEXER_H
-
-#include "utils/array.h"
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef RCC_LEXER_TOKEN_H
+#define RCC_LEXER_TOKEN_H
 
 typedef enum {
   TokenVoid,
@@ -19,6 +14,10 @@ typedef enum {
   TokenRightBrace,
   TokenLeftParen,
   TokenRightParen,
+
+  TokenEnd, /* End of the source code */
+
+  TokenReserved /* Shoudlen't be generated, should be used like null. */
 } TokenKind;
 
 typedef struct {
@@ -26,9 +25,7 @@ typedef struct {
 
   union {
     char *ident;
-  } payload;
+  };
 } Token;
-
-Array lex(const char *code);
 
 #endif

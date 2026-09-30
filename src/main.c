@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "lexer.h"
+#include "lexer/lexer.h"
 #include "utils/fs.h"
 #include "utils/result.h"
 

@@ -15,7 +15,6 @@
 #endif
 #endif
 
-RCC_NORETURN void fail(const char *message);
-RCC_NORETURN void unreachable();
+RCC_NORETURN void panic(const char *message);
 
 #endif

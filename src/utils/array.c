@@ -1,4 +1,5 @@
 #include "array.h"
+#include "misc.h"
 
 /* Creates a new array with the size of `BASE_ARRAY_SIZE`, with `element_size`
  * as the size per element, in bytes.
@@ -10,7 +11,7 @@ Array create_array_with_size(size_t element_size) {
   void *base = malloc(element_size * BASE_ARRAY_SIZE);
 
   if (base == NULL)
-    abort();
+    panic("array: out of memory");
 
   Array array = {.base = base,
                  .len = 0,
@@ -34,7 +35,7 @@ static void expand_array(Array *array) {
 
   void *new_base = realloc(array->base, array->capacity * array->element_size);
   if (new_base == NULL)
-    abort();
+    panic("array: out of memory");
 
   array->base = new_base;
 }
@@ -61,7 +62,7 @@ void array_push_inner(Array *array, void *value) {
 /* Returns the pointer to `index` in `array`. */
 void *array_get_inner(Array *array, size_t index) {
   if (index >= array->len)
-    abort();
+    panic("array: index out of bounds");
 
   return array_slot_at(array, index);
 }
