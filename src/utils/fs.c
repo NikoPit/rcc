@@ -20,29 +20,32 @@ static FileSizeResult file_size(FILE *file) {
 /* Reads the entire file at `path`. */
 ReadFileResult read_file(char *path) {
   FILE *file = fopen(path, "rb");
+  char *content = NULL;
 
   if (file == NULL)
-    return RESULT_ERR(ReadFileResult, MK_EMPTY);
+    goto err;
 
-  EXTRACT_OK(FileSizeResult, file_size(file), long, size, {
-    fclose(file);
-    return RESULT_ERR(ReadFileResult, MK_EMPTY);
-  });
+  EXTRACT_OK(FileSizeResult, file_size(file), long, size, { goto err; });
 
-  char *content = malloc(size + 1); /* +1 for the null terminator */
-  if (content == NULL) {
-    fclose(file);
-    return RESULT_ERR(ReadFileResult, MK_EMPTY);
-  }
+  content = malloc(size + 1); /* +1 for the null terminator */
 
-  if (fread(content, 1, size, file) != size) {
-    free(content);
-    fclose(file);
-    return RESULT_ERR(ReadFileResult, MK_EMPTY);
-  }
+  if (content == NULL)
+    goto err;
+
+  if (fread(content, 1, size, file) != (size_t)size)
+    goto err;
 
   content[size] = '\0';
 
   fclose(file);
   return RESULT_OK(ReadFileResult, content);
+
+err:
+  if (file != NULL)
+    fclose(file);
+
+  if (content != NULL)
+    free(content);
+
+  return RESULT_ERR(ReadFileResult, MK_EMPTY);
 }
