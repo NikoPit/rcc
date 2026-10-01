@@ -14,6 +14,7 @@ typedef enum {
   TokenRightBrace,
   TokenLeftParen,
   TokenRightParen,
+  TokenSemicolon,
 
   TokenEnd, /* End of the source code */
 
