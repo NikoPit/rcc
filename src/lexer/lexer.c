@@ -3,32 +3,14 @@
 #include <sys/stat.h>
 
 #include "../utils/bool.h"
-#include "../utils/misc.h"
 #include "core.h"
 #include "ident.h"
 #include "lexer.h"
+#include "misc.h"
 #include "token.h"
 
 static bool should_skip(char c) {
   return c == '\n' || c == '\t' || c == '\r' || c == ' ';
-}
-
-static Token lex_misc(LexerState *state) {
-  switch (lexer_consume(state)) {
-  case '{':
-    return payloadless_token(TokenLeftBrace);
-  case '}':
-    return payloadless_token(TokenRightBrace);
-    break;
-  case '(':
-    return payloadless_token(TokenLeftParen);
-  case ')':
-    return payloadless_token(TokenRightParen);
-  case ';':
-    return payloadless_token(TokenSemicolon);
-  default:
-    panic("lexer: unknown token");
-  }
 }
 
 static Token next(LexerState *state) {
