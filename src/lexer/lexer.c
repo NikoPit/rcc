@@ -40,11 +40,11 @@ static TokenKind check_keyword(const char *str) {
 }
 
 static bool licw_cond(LexerState *state) {
-  return is_ident_continue(peek(state));
+  return is_ident_continue(lexer_peek(state));
 }
 
 static Token lex_ident(LexerState *state) {
-  char *ident = consume_while(state, licw_cond);
+  char *ident = lexer_consume_while(state, licw_cond);
 
   TokenKind kind = check_keyword(ident);
   if (kind == TokenReserved) {
@@ -57,7 +57,7 @@ static Token lex_ident(LexerState *state) {
 }
 
 static Token lex_misc(LexerState *state) {
-  switch (consume(state)) {
+  switch (lexer_consume(state)) {
   case '{':
     return payloadless_token(TokenLeftBrace);
   case '}':
@@ -75,13 +75,13 @@ static Token lex_misc(LexerState *state) {
 }
 
 static Token next(LexerState *state) {
-  while (!is_end(state) && should_skip(peek(state)))
-    consume(state);
+  while (!lexer_is_end(state) && should_skip(lexer_peek(state)))
+    lexer_consume(state);
 
-  if (is_end(state))
+  if (lexer_is_end(state))
     return payloadless_token(TokenEnd);
 
-  char c = peek(state);
+  char c = lexer_peek(state);
 
   if (is_ident_start(c)) {
     return lex_ident(state);
