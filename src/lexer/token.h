@@ -4,12 +4,15 @@
 typedef enum {
   TokenVoid,
 
+  /* Types */
   TokenInt,
 
   TokenIdent,
 
+  /* Statements */
   TokenReturn,
 
+  /* Basic single characters */
   TokenLeftBrace,
   TokenRightBrace,
   TokenLeftParen,
