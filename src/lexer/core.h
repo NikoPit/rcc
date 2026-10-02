@@ -1,7 +1,6 @@
 #ifndef RCC_LEXER_CORE_H
 #define RCC_LEXER_CORE_H
 
-#include "../utils/bool.h"
 #include "token.h"
 #include <stdlib.h>
 

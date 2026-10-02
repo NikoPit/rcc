@@ -3,7 +3,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include "../utils/bool.h"
 #include "core.h"
 #include "ident.h"
 #include "lexer.h"
