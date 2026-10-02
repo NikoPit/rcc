@@ -39,25 +39,16 @@ static TokenKind check_keyword(const char *str) {
   }
 }
 
-#define IDENT_BUFFER_SIZE 256
+static bool licw_cond(LexerState *state) {
+  return is_ident_continue(peek(state));
+}
+
 static Token lex_ident(LexerState *state) {
-  char ident[IDENT_BUFFER_SIZE] = {};
-  size_t size = 0;
-
-  while (!is_end(state) && is_ident_continue(peek(state))) {
-    ident[size] = consume(state);
-    size++;
-
-    if (size >= IDENT_BUFFER_SIZE)
-      panic(
-          "lexer: lex_ident: ident size exceeded max size (IDENT_BUFFER_SIZE)");
-  }
-
-  ident[size] = '\0';
+  char *ident = consume_while(state, licw_cond);
 
   TokenKind kind = check_keyword(ident);
   if (kind == TokenReserved) {
-    Token token = {.kind = TokenIdent, .ident = clone_string(ident)};
+    Token token = {.kind = TokenIdent, .ident = ident};
     return token;
   } else {
     return payloadless_token(kind);
