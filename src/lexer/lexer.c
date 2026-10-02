@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -7,6 +8,7 @@
 #include "ident.h"
 #include "lexer.h"
 #include "misc.h"
+#include "number.h"
 #include "token.h"
 
 static bool should_skip(char c) {
@@ -24,6 +26,8 @@ static Token next(LexerState *state) {
 
   if (is_ident_start(c)) {
     return lex_ident(state);
+  } else if (isdigit((unsigned char)c)) {
+    return lex_number(state);
   } else {
     return lex_misc(state);
   }

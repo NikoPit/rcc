@@ -8,6 +8,7 @@ typedef enum {
   TokenInt,
 
   TokenIdent,
+  TokenNumber,
 
   /* Statements */
   TokenReturn,
@@ -29,6 +30,7 @@ typedef struct {
 
   union {
     char *ident;
+    long long number;
   };
 } Token;
 
