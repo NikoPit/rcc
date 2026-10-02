@@ -51,6 +51,7 @@ static Token lex_ident(LexerState *state) {
     Token token = {.kind = TokenIdent, .ident = ident};
     return token;
   } else {
+    free(ident);
     return payloadless_token(kind);
   }
 }
