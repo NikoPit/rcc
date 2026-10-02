@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "utils/array.c",
                 SRC_DIR "lexer/lexer.c", SRC_DIR "utils/misc.c",
                 SRC_DIR "utils/string.c", SRC_DIR "utils/fs.c",
-                SRC_DIR "lexer/core.c");
+                SRC_DIR "lexer/core.c", SRC_DIR "lexer/ident.c");
 
   if (!cmd_run(&cmd))
     fail("Failed to execute build command");
