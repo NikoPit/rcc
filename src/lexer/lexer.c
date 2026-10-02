@@ -6,7 +6,7 @@
 #include "../utils/bool.h"
 #include "../utils/misc.h"
 #include "../utils/string.h"
-#include "internal.h"
+#include "core.h"
 #include "lexer.h"
 #include "token.h"
 
