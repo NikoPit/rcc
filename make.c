@@ -132,7 +132,7 @@ static void run(int main_argc, string main_argv[]) {
 
   if (duped_output_path == nullptr) {
     perror("make run");
-    exit(EXIT_FAILURE);
+    goto err;
   }
 
   spawned_argv[0] = duped_output_path;
@@ -143,9 +143,8 @@ static void run(int main_argc, string main_argv[]) {
       auto i = 3;
       while (i < main_argc) {
         if (spawned_argc >= 255) {
-          free(duped_output_path);
           fputs("make run: too many arguments", stderr);
-          exit(EXIT_FAILURE);
+          goto err;
         }
 
         spawned_argv[spawned_argc] = main_argv[i];
@@ -153,11 +152,10 @@ static void run(int main_argc, string main_argv[]) {
         i++;
       }
     } else {
-      free(duped_output_path);
       fputs("If you're trying to pass arguments to rcc, use ./make run -- "
             "<args> instead of ./make run <args>",
             stderr);
-      exit(EXIT_FAILURE);
+      goto err;
     }
   }
 
@@ -170,20 +168,24 @@ static void run(int main_argc, string main_argv[]) {
   auto error =
       posix_spawn(&pid, output_path, nullptr, nullptr, spawned_argv, environ);
   if (error != 0) {
-    free(duped_output_path);
     fprintf(stderr, "make run: %s\n", strerror(error));
-    exit(EXIT_FAILURE);
+    goto err;
   }
 
   int status;
   if (waitpid(pid, &status, 0) == -1) {
-    free(duped_output_path);
     perror("make run");
-    exit(EXIT_FAILURE);
+    goto err;
   }
 
   free(duped_output_path);
   exit(wait_status_to_code(status)); /* Carry over rcc's exit status */
+
+err:
+  if (duped_output_path != nullptr)
+    free(duped_output_path);
+
+  exit(EXIT_FAILURE);
 }
 
 /* Entry */
