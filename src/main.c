@@ -26,5 +26,7 @@ int main(int argc, string argv[]) {
   auto tokens = lex(file_content);
   free(file_content);
 
+  (void)tokens;
+
   return EXIT_SUCCESS;
 }
