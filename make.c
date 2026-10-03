@@ -1,4 +1,5 @@
 #include <spawn.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,11 +10,23 @@
 #define NOB_IMPLEMENTATION
 #include "libs/nob.h"
 
+#define STB_DS_IMPLEMENTATION
+#include "libs/stb_ds.h"
+
 /* Misc */
 
 [[nodiscard]]
 static bool string_equals(const char *lhs, const char *rhs) {
   return strcmp(lhs, rhs) == 0;
+}
+
+[[nodiscard]]
+static bool ends_with(const char *str, const char *suffix) {
+  size_t len = strlen(str);
+  size_t suffix_len = strlen(suffix);
+
+  return len >= suffix_len &&
+         memcmp(str + len - suffix_len, suffix, suffix_len) == 0;
 }
 
 /* Command parsing */
@@ -46,6 +59,27 @@ static Command parse_cmd(int argc, char *argv[]) {
 #define BUILD_DIR "build/"
 #define SRC_DIR "src/"
 #define OUTPUT_PATH (BUILD_DIR "rcc")
+
+[[nodiscard]]
+static bool push_source(Nob_Walk_Entry entry) {
+  char *** /* Pointer to array of strings */ sources = entry.data;
+  if (entry.type == FILE_REGULAR && ends_with(entry.path, ".c"))
+    arrput(*sources, strdup(entry.path));
+  return true;
+}
+
+[[nodiscard]]
+static const char ** /* Array of strings */ collect_sources(void) {
+  const char **sources = NULL;
+
+  if (!nob_walk_dir(SRC_DIR, push_source, .data = &sources)) {
+    fputs("Failed to collect sources", stderr);
+    exit(EXIT_FAILURE);
+  }
+
+  return sources;
+}
+
 static void make() {
   if (!mkdir_if_not_exists(BUILD_DIR)) {
     perror("make");
@@ -59,14 +93,18 @@ static void make() {
   nob_cc_output(&cmd, OUTPUT_PATH);
   nob_cmd_append(&cmd, "-std=gnu23");
 
-  nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "lib_impls.c",
-                SRC_DIR "lexer/lexer.c", SRC_DIR "utils/misc.c",
-                SRC_DIR "utils/string.c", SRC_DIR "utils/fs.c",
-                SRC_DIR "lexer/core.c", SRC_DIR "lexer/ident.c",
-                SRC_DIR "lexer/misc.c", SRC_DIR "lexer/number.c");
+  const char **sources = collect_sources();
+  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
+    nob_cmd_append(&cmd, sources[i]);
+  }
 
   if (!cmd_run(&cmd))
     exit(EXIT_FAILURE);
+
+  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
+    free((void *)sources[i]); /* Free the strdup'ed string */
+  }
+  arrfree(sources);
 }
 
 [[nodiscard]]
