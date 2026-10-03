@@ -56,7 +56,6 @@ static Command parse_cmd(int argc, char *argv[]) {
 
 /* Command impls */
 
-static constexpr char src_dir[] = "src/";
 static constexpr char output_path[] = "rcc";
 
 [[nodiscard]]
@@ -69,6 +68,8 @@ static bool push_source(Nob_Walk_Entry entry) {
 
 [[nodiscard]]
 static const char ** /* Array of strings */ collect_sources(void) {
+  constexpr char src_dir[] = "src/";
+
   const char **sources = nullptr;
 
   if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
