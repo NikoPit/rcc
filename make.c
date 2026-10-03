@@ -69,7 +69,7 @@ static bool push_source(Nob_Walk_Entry entry) {
 
 [[nodiscard]]
 static const char ** /* Array of strings */ collect_sources(void) {
-  const char **sources = NULL;
+  const char **sources = nullptr;
 
   if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
     fputs("Failed to collect sources", stderr);
@@ -142,14 +142,14 @@ static void run(int main_argc, char *main_argv[]) {
     }
   }
 
-  spawned_argv[spawned_argc] = NULL; /* Null terminator */
+  spawned_argv[spawned_argc] = nullptr; /* Null terminator */
   spawned_argc++;
 
   make();
 
   pid_t pid;
   auto error =
-      posix_spawn(&pid, output_path, NULL, NULL, spawned_argv, environ);
+      posix_spawn(&pid, output_path, nullptr, nullptr, spawned_argv, environ);
   if (error != 0) {
     fprintf(stderr, "make run: %s\n", strerror(error));
     exit(EXIT_FAILURE);

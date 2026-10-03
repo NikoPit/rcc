@@ -40,7 +40,7 @@ static Token next(LexerState *state) {
 [[nodiscard]]
 Token *lex(const char *code) {
   LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
-  Token *tokens = NULL;
+  Token *tokens = nullptr;
 
   while (true) {
     auto next_token = next(&state);

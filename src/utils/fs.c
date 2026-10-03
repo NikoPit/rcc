@@ -24,16 +24,16 @@ static FileSizeResult file_size(FILE *file) {
 [[nodiscard]]
 ReadFileResult read_file(const char *path) {
   auto file = fopen(path, "rb");
-  char *content = NULL;
+  char *content = nullptr;
 
-  if (file == NULL)
+  if (file == nullptr)
     goto err;
 
   EXTRACT_OK(file_size(file), size, { goto err; });
 
   content = malloc(size + 1); /* +1 for the null terminator */
 
-  if (content == NULL)
+  if (content == nullptr)
     goto err;
 
   if (fread(content, 1, size, file) != (size_t)size)
@@ -45,10 +45,10 @@ ReadFileResult read_file(const char *path) {
   return RESULT_OK(ReadFileResult, content);
 
 err:
-  if (file != NULL)
+  if (file != nullptr)
     fclose(file);
 
-  if (content != NULL)
+  if (content != nullptr)
     free(content);
 
   return RESULT_ERR(ReadFileResult, errno);
