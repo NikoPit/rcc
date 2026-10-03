@@ -33,7 +33,7 @@ static bool ends_with(const char *str, const char *suffix) {
 
 typedef enum { Make, Run } Command;
 
-static const auto usage = "Usage: ./make <cmd>";
+static constexpr char usage[] = "Usage: ./make <cmd>";
 
 [[nodiscard]]
 static Command parse_cmd_string(char *cmd_string) {
