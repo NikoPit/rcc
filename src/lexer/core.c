@@ -29,16 +29,17 @@ Token payloadless_token(TokenKind kind) {
   return token;
 }
 
-#define CONSUME_WHILE_BUF_SIZE 256
 char *lexer_consume_while(LexerState *state, Cond cond) {
-  char text[CONSUME_WHILE_BUF_SIZE];
+  constexpr auto buf_size = 256;
+
+  char text[buf_size];
   auto size = 0;
 
   while (!lexer_is_end(state) && cond(state)) {
     text[size] = lexer_consume(state);
     size++;
 
-    if (size >= CONSUME_WHILE_BUF_SIZE)
+    if (size >= buf_size)
       panic("lexer: consume_while: size exceeded max size");
   }
 
