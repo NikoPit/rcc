@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  ReadFileResult file_content_res = read_file(argv[1]);
+  auto file_content_res = read_file(argv[1]);
 
   if (file_content_res.kind == ResultErr) {
     fprintf(stderr, "reading input file: %s\n",
@@ -20,9 +20,9 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  char *file_content = file_content_res.ok;
+  auto file_content = file_content_res.ok;
 
-  Token *tokens = lex(file_content);
+  auto tokens = lex(file_content);
   free(file_content);
 
   return EXIT_SUCCESS;

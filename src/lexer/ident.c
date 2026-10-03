@@ -27,9 +27,9 @@ static bool licw_cond(LexerState *state) {
 }
 
 Token lex_ident(LexerState *state) {
-  char *ident = lexer_consume_while(state, licw_cond);
+  auto ident = lexer_consume_while(state, licw_cond);
 
-  TokenKind kind = check_keyword(ident);
+  auto kind = check_keyword(ident);
   if (kind == TokenReserved /* Is not a keyword */) {
     Token token = {.kind = TokenIdent, .ident = ident};
     return token;

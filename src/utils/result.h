@@ -20,10 +20,10 @@ typedef struct {
     };                                                                         \
   } name##Result
 
-#define EXTRACT_OK(result_type, result_expr, ok_type, ok_var_name, err)        \
-  result_type _rcc_tmp_result_##ok_var_name = result_expr;                     \
+#define EXTRACT_OK(result_expr, ok_var_name, err)                              \
+  auto _rcc_tmp_result_##ok_var_name = result_expr;                            \
   if (_rcc_tmp_result_##ok_var_name.kind == ResultErr)                         \
-    err ok_type ok_var_name = _rcc_tmp_result_##ok_var_name.ok;
+    err auto ok_var_name = _rcc_tmp_result_##ok_var_name.ok;
 
 #define RESULT_OK(type, value)                                                 \
   (type) { .kind = ResultOk, .ok = value }

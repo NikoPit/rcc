@@ -24,7 +24,7 @@ static Token next(LexerState *state) {
   if (lexer_is_end(state))
     return payloadless_token(TokenEnd);
 
-  char c = lexer_peek(state);
+  auto c = lexer_peek(state);
 
   if (is_ident_start(c)) {
     return lex_ident(state);
@@ -40,7 +40,7 @@ Token *lex(const char *code) {
   Token *tokens = NULL;
 
   while (true) {
-    Token next_token = next(&state);
+    auto next_token = next(&state);
     if (next_token.kind == TokenEnd)
       break;
 
@@ -53,7 +53,7 @@ Token *lex(const char *code) {
 void free_tokens(Token *tokens) {
   /* Free the cloned idents */
   for (ptrdiff_t i = 0; i < arrlen(tokens); i++) {
-    Token token = tokens[i];
+    auto token = tokens[i];
     if (token.kind == TokenIdent)
       free(token.ident);
   }

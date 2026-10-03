@@ -27,7 +27,7 @@ Token payloadless_token(TokenKind kind) {
 #define CONSUME_WHILE_BUF_SIZE 256
 char *lexer_consume_while(LexerState *state, Cond cond) {
   char text[CONSUME_WHILE_BUF_SIZE];
-  size_t size = 0;
+  auto size = 0;
 
   while (!lexer_is_end(state) && cond(state)) {
     text[size] = lexer_consume(state);

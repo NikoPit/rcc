@@ -9,7 +9,7 @@ static FileSizeResult file_size(FILE *file) {
   if (fseek(file, 0, SEEK_END) != 0)
     return RESULT_ERR(FileSizeResult, MK_EMPTY);
 
-  long size = ftell(file);
+  auto size = ftell(file);
   if (size < 0)
     return RESULT_ERR(FileSizeResult, MK_EMPTY);
 
@@ -20,13 +20,13 @@ static FileSizeResult file_size(FILE *file) {
 
 /* Reads the entire file at `path`. */
 ReadFileResult read_file(const char *path) {
-  FILE *file = fopen(path, "rb");
+  auto file = fopen(path, "rb");
   char *content = NULL;
 
   if (file == NULL)
     goto err;
 
-  EXTRACT_OK(FileSizeResult, file_size(file), long, size, { goto err; });
+  EXTRACT_OK(file_size(file), size, { goto err; });
 
   content = malloc(size + 1); /* +1 for the null terminator */
 
