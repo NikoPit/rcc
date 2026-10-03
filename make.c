@@ -1,3 +1,5 @@
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
+
 #include <spawn.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -180,3 +182,17 @@ int main(int argc, char *argv[]) {
 
   return EXIT_SUCCESS;
 }
+
+#else
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+  fputs(
+      "make.c requires GNU C23 to run. Please compile make.c with -std=gnu23.",
+      stderr);
+  return EXIT_FAILURE;
+}
+
+#endif
