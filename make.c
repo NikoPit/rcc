@@ -27,7 +27,7 @@ static Command parse_cmd_string(char *cmd_string) {
   if (string_equals(cmd_string, "run")) {
     return Run;
   } else {
-    puts(usage);
+    fputs(usage, stderr);
     exit(EXIT_FAILURE);
   }
 }
