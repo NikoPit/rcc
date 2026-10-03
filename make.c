@@ -1,4 +1,7 @@
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L &&                \
+    !defined(                                                                  \
+        __STRICT_ANSI__) /* -std=c23, aka non GNU C, defines __STRICT_ANSI__,  \
+                            so here it must not define __STRICT_ANSI__ */
 
 #include <spawn.h>
 #include <stddef.h>
