@@ -154,7 +154,8 @@ static void run(int main_argc, char *main_argv[]) {
   make();
 
   pid_t pid;
-  int error = posix_spawn(&pid, OUTPUT_PATH, NULL, NULL, spawned_argv, environ);
+  auto error =
+      posix_spawn(&pid, OUTPUT_PATH, NULL, NULL, spawned_argv, environ);
   if (error != 0) {
     fprintf(stderr, "make run: %s\n", strerror(error));
     exit(EXIT_FAILURE);
