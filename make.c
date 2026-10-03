@@ -56,8 +56,8 @@ static Command parse_cmd(int argc, char *argv[]) {
 
 /* Command impls */
 
-#define SRC_DIR "src/"
-#define OUTPUT_PATH "rcc"
+static constexpr char src_dir[] = "src/";
+static constexpr char output_path[] = "rcc";
 
 [[nodiscard]]
 static bool push_source(Nob_Walk_Entry entry) {
@@ -71,7 +71,7 @@ static bool push_source(Nob_Walk_Entry entry) {
 static const char ** /* Array of strings */ collect_sources(void) {
   const char **sources = NULL;
 
-  if (!nob_walk_dir(SRC_DIR, push_source, .data = &sources)) {
+  if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
     fputs("Failed to collect sources", stderr);
     exit(EXIT_FAILURE);
   }
@@ -84,7 +84,7 @@ static void make() {
 
   nob_cc(&cmd);
   nob_cc_flags(&cmd);
-  nob_cc_output(&cmd, OUTPUT_PATH);
+  nob_cc_output(&cmd, output_path);
   nob_cmd_append(&cmd, "-std=gnu23");
 
   auto sources = collect_sources();
@@ -118,7 +118,7 @@ static void run(int main_argc, char *main_argv[]) {
   char *spawned_argv[256];
   auto spawned_argc = 0;
 
-  spawned_argv[0] = OUTPUT_PATH;
+  spawned_argv[0] = output_path;
   spawned_argc++;
 
   if (main_argc >= 3) {
@@ -149,7 +149,7 @@ static void run(int main_argc, char *main_argv[]) {
 
   pid_t pid;
   auto error =
-      posix_spawn(&pid, OUTPUT_PATH, NULL, NULL, spawned_argv, environ);
+      posix_spawn(&pid, output_path, NULL, NULL, spawned_argv, environ);
   if (error != 0) {
     fprintf(stderr, "make run: %s\n", strerror(error));
     exit(EXIT_FAILURE);
