@@ -1,6 +1,7 @@
 #include "misc.h"
 #include "../utils/misc.h"
 
+[[nodiscard]]
 Token lex_misc(LexerState *state) {
   switch (lexer_consume(state)) {
   case '{':

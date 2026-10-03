@@ -4,12 +4,14 @@
 
 /* Returns weather `c` could be a continuation of an ident. Aka characters after
  * the start. */
+[[nodiscard]]
 static bool is_ident_continue(char c) {
   return isalnum((unsigned char)c) || c == '_';
 }
 
 /* Checks weather `str` is a keyword, and returns its `TokenKind` it is. If not,
  * returns `TokenReserved`. */
+[[nodiscard]]
 static TokenKind check_keyword(const char *str) {
   if (string_equals(str, "int")) {
     return TokenInt;
@@ -22,10 +24,12 @@ static TokenKind check_keyword(const char *str) {
   }
 }
 
+[[nodiscard]]
 static bool licw_cond(LexerState *state) {
   return is_ident_continue(lexer_peek(state));
 }
 
+[[nodiscard]]
 Token lex_ident(LexerState *state) {
   auto ident = lexer_consume_while(state, licw_cond);
 
@@ -39,4 +43,7 @@ Token lex_ident(LexerState *state) {
   }
 }
 
-bool is_ident_start(char c) { return isalpha((unsigned char)c) || c == '_'; }
+[[nodiscard]]
+bool is_ident_start(char c) {
+  return isalpha((unsigned char)c) || c == '_';
+}

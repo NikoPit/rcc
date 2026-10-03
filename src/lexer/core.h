@@ -10,11 +10,15 @@ typedef struct {
   size_t pos;
 } LexerState;
 
+[[nodiscard]]
 bool lexer_is_end(LexerState *state);
 
+[[nodiscard]]
 char lexer_peek(LexerState *state);
+
 char lexer_consume(LexerState *state);
 
+[[nodiscard]]
 Token payloadless_token(TokenKind kind);
 
 typedef bool Cond(LexerState *);

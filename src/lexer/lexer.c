@@ -13,10 +13,12 @@
 
 #include "../../libs/stb_ds.h"
 
+[[nodiscard]]
 static bool should_skip(char c) {
   return c == '\n' || c == '\t' || c == '\r' || c == ' ';
 }
 
+[[nodiscard]]
 static Token next(LexerState *state) {
   while (!lexer_is_end(state) && should_skip(lexer_peek(state)))
     lexer_consume(state);
@@ -35,6 +37,7 @@ static Token next(LexerState *state) {
   }
 }
 
+[[nodiscard]]
 Token *lex(const char *code) {
   LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
   Token *tokens = NULL;

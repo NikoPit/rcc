@@ -5,6 +5,8 @@
 #include <stdlib.h>
 
 DEF_RESULT(FileSize, long, Empty);
+
+[[nodiscard]]
 static FileSizeResult file_size(FILE *file) {
   if (fseek(file, 0, SEEK_END) != 0)
     return RESULT_ERR(FileSizeResult, MK_EMPTY);
@@ -19,6 +21,7 @@ static FileSizeResult file_size(FILE *file) {
 }
 
 /* Reads the entire file at `path`. */
+[[nodiscard]]
 ReadFileResult read_file(const char *path) {
   auto file = fopen(path, "rb");
   char *content = NULL;

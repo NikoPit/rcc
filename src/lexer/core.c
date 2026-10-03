@@ -2,8 +2,12 @@
 #include "../utils/misc.h"
 #include "../utils/string.h"
 
-bool lexer_is_end(LexerState *state) { return state->pos >= state->code_len; }
+[[nodiscard]]
+bool lexer_is_end(LexerState *state) {
+  return state->pos >= state->code_len;
+}
 
+[[nodiscard]]
 char lexer_peek(LexerState *state) {
   if (lexer_is_end(state))
     panic("lexer: peek: out of bounds");
@@ -18,6 +22,7 @@ char lexer_consume(LexerState *state) {
   return state->code[state->pos++];
 }
 
+[[nodiscard]]
 Token payloadless_token(TokenKind kind) {
   Token token = {.kind = kind};
 

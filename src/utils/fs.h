@@ -5,6 +5,7 @@
 
 DEF_RESULT(ReadFile, char *, int /* errno */);
 
+[[nodiscard]]
 ReadFileResult read_file(const char *path);
 
 #endif

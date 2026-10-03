@@ -3,6 +3,7 @@
 
 #include "token.h"
 
+[[nodiscard]]
 Token *lex(const char *code);
 void free_tokens(Token *tokens);
 

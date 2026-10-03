@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+[[nodiscard]]
 bool string_equals(const char *lhs, const char *rhs) {
   auto result = strcmp(lhs, rhs);
 
@@ -13,6 +14,7 @@ bool string_equals(const char *lhs, const char *rhs) {
   }
 }
 
+[[nodiscard]]
 char *clone_string(const char *string) {
   auto len = strlen(string) + 1; /* +1 for the null termiator */
 
