@@ -1,9 +1,9 @@
 #ifndef RCC_LEXER_H
 #define RCC_LEXER_H
 
-#include "../utils/array.h"
+#include "token.h"
 
-Array lex(const char *code);
-void free_tokens(Array *tokens);
+Token *lex(const char *code);
+void free_tokens(Token *tokens);
 
 #endif

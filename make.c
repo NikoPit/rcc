@@ -59,7 +59,7 @@ static void make() {
   nob_cc_output(&cmd, OUTPUT_PATH);
   nob_cmd_append(&cmd, "-std=gnu23");
 
-  nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "utils/array.c",
+  nob_cc_inputs(&cmd, SRC_DIR "main.c", SRC_DIR "lib_impls.c",
                 SRC_DIR "lexer/lexer.c", SRC_DIR "utils/misc.c",
                 SRC_DIR "utils/string.c", SRC_DIR "utils/fs.c",
                 SRC_DIR "lexer/core.c", SRC_DIR "lexer/ident.c",

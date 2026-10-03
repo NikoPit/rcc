@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -9,6 +10,8 @@
 #include "misc.h"
 #include "number.h"
 #include "token.h"
+
+#include "../../libs/stb_ds.h"
 
 static bool should_skip(char c) {
   return c == '\n' || c == '\t' || c == '\r' || c == ' ';
@@ -32,28 +35,28 @@ static Token next(LexerState *state) {
   }
 }
 
-Array lex(const char *code) {
+Token *lex(const char *code) {
   LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
-  Array tokens = create_array(Token);
+  Token *tokens = NULL;
 
   while (true) {
     Token next_token = next(&state);
     if (next_token.kind == TokenEnd)
       break;
 
-    array_push(&tokens, Token, next_token);
+    arrput(tokens, next_token);
   }
 
   return tokens;
 }
 
-void free_tokens(Array *tokens) {
+void free_tokens(Token *tokens) {
   /* Free the cloned idents */
-  for (size_t i = 0; i < tokens->len; i++) {
-    Token *token = array_get_ptr(tokens, i);
-    if (token->kind == TokenIdent)
-      free(token->ident);
+  for (ptrdiff_t i = 0; i < arrlen(tokens); i++) {
+    Token token = tokens[i];
+    if (token.kind == TokenIdent)
+      free(token.ident);
   }
 
-  destroy_array(tokens);
+  arrfree(tokens);
 }

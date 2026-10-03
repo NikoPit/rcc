@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
   char *file_content = file_content_res.ok;
 
-  Array tokens = lex(file_content);
+  Token *tokens = lex(file_content);
   free(file_content);
 
   return EXIT_SUCCESS;
