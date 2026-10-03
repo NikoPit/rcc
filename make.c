@@ -22,8 +22,8 @@ static bool string_equals(const char *lhs, const char *rhs) {
 
 [[nodiscard]]
 static bool ends_with(const char *str, const char *suffix) {
-  size_t len = strlen(str);
-  size_t suffix_len = strlen(suffix);
+  auto len = strlen(str);
+  auto suffix_len = strlen(suffix);
 
   return len >= suffix_len &&
          memcmp(str + len - suffix_len, suffix, suffix_len) == 0;
@@ -33,7 +33,7 @@ static bool ends_with(const char *str, const char *suffix) {
 
 typedef enum { Make, Run } Command;
 
-static const char *usage = "Usage: ./make <cmd>";
+static const auto usage = "Usage: ./make <cmd>";
 
 [[nodiscard]]
 static Command parse_cmd_string(char *cmd_string) {
@@ -93,7 +93,7 @@ static void make() {
   nob_cc_output(&cmd, OUTPUT_PATH);
   nob_cmd_append(&cmd, "-std=gnu23");
 
-  const char **sources = collect_sources();
+  auto sources = collect_sources();
   for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
     nob_cmd_append(&cmd, sources[i]);
   }
@@ -122,14 +122,14 @@ static int wait_status_to_code(int status) {
 extern char **environ;
 static void run(int main_argc, char *main_argv[]) {
   char *spawned_argv[256];
-  int spawned_argc = 0;
+  auto spawned_argc = 0;
 
   spawned_argv[0] = OUTPUT_PATH;
   spawned_argc++;
 
   if (main_argc >= 3) {
     if (string_equals(main_argv[2], "--")) {
-      int i = 3;
+      auto i = 3;
       while (i < main_argc) {
         if (spawned_argc >= 255) {
           fputs("make run: too many arguments", stderr);
@@ -171,7 +171,7 @@ static void run(int main_argc, char *main_argv[]) {
 /* Entry */
 
 int main(int argc, char *argv[]) {
-  Command command = parse_cmd(argc, argv);
+  auto command = parse_cmd(argc, argv);
 
   switch (command) {
   case Make:
