@@ -56,9 +56,8 @@ static Command parse_cmd(int argc, char *argv[]) {
 
 /* Command impls */
 
-#define BUILD_DIR "build/"
 #define SRC_DIR "src/"
-#define OUTPUT_PATH (BUILD_DIR "rcc")
+#define OUTPUT_PATH "rcc"
 
 [[nodiscard]]
 static bool push_source(Nob_Walk_Entry entry) {
@@ -81,11 +80,6 @@ static const char ** /* Array of strings */ collect_sources(void) {
 }
 
 static void make() {
-  if (!mkdir_if_not_exists(BUILD_DIR)) {
-    perror("make");
-    exit(EXIT_FAILURE);
-  }
-
   Cmd cmd = {0};
 
   nob_cc(&cmd);
