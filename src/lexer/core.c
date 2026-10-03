@@ -29,7 +29,7 @@ Token payloadless_token(TokenKind kind) {
   return token;
 }
 
-char *lexer_consume_while(LexerState *state, Cond cond) {
+string lexer_consume_while(LexerState *state, Cond cond) {
   constexpr auto buf_size = 256;
 
   char text[buf_size];

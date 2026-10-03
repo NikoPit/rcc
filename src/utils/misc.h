@@ -1,7 +1,9 @@
 #ifndef RCC_MISC_H
 #define RCC_MISC_H
 
+#include "../utils/string.h"
+
 [[noreturn]]
-void panic(const char *message);
+void panic(const_string message);
 
 #endif

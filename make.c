@@ -17,13 +17,17 @@
 
 /* Misc */
 
+typedef char *string;
+typedef const char *const_string;
+typedef char constexpr_string[];
+
 [[nodiscard]]
-static bool string_equals(const char *lhs, const char *rhs) {
+static bool string_equals(const_string lhs, const_string rhs) {
   return strcmp(lhs, rhs) == 0;
 }
 
 [[nodiscard]]
-static bool ends_with(const char *str, const char *suffix) {
+static bool ends_with(const_string str, const_string suffix) {
   auto len = strlen(str);
   auto suffix_len = strlen(suffix);
 
@@ -36,8 +40,8 @@ static bool ends_with(const char *str, const char *suffix) {
 typedef enum { Make, Run } Command;
 
 [[nodiscard]]
-static Command parse_cmd_string(char *cmd_string) {
-  constexpr char usage[] = "Usage: ./make <cmd>";
+static Command parse_cmd_string(string cmd_string) {
+  constexpr constexpr_string usage = "Usage: ./make <cmd>";
 
   if (string_equals(cmd_string, "run")) {
     return Run;
@@ -48,7 +52,7 @@ static Command parse_cmd_string(char *cmd_string) {
 }
 
 [[nodiscard]]
-static Command parse_cmd(int argc, char *argv[]) {
+static Command parse_cmd(int argc, string argv[]) {
   if (argc == 1 /* ./make with no args */) {
     return Make;
   } else /* Allow args more then 2 for cases like `make run -- hello.c` */ {
@@ -62,17 +66,17 @@ static constexpr char output_path[] = "rcc";
 
 [[nodiscard]]
 static bool push_source(Nob_Walk_Entry entry) {
-  char *** /* Pointer to array of strings */ sources = entry.data;
+  string ** /* Pointer to array of strings */ sources = entry.data;
   if (entry.type == FILE_REGULAR && ends_with(entry.path, ".c"))
     arrput(*sources, strdup(entry.path));
   return true;
 }
 
 [[nodiscard]]
-static const char ** /* Array of strings */ collect_sources(void) {
-  constexpr char src_dir[] = "src/";
+static const string * /* Array of strings */ collect_sources(void) {
+  constexpr constexpr_string src_dir = "src/";
 
-  const char **sources = nullptr;
+  const string *sources = nullptr;
 
   if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
     fputs("Failed to collect sources", stderr);
@@ -116,9 +120,9 @@ static int wait_status_to_code(int status) {
   }
 }
 
-extern char **environ;
-static void run(int main_argc, char *main_argv[]) {
-  char *spawned_argv[256];
+extern string *environ;
+static void run(int main_argc, string main_argv[]) {
+  string spawned_argv[256];
   auto spawned_argc = 0;
 
   spawned_argv[0] = output_path;
@@ -168,7 +172,7 @@ static void run(int main_argc, char *main_argv[]) {
 
 /* Entry */
 
-int main(int argc, char *argv[]) {
+int main(int argc, string argv[]) {
   auto command = parse_cmd(argc, argv);
 
   switch (command) {

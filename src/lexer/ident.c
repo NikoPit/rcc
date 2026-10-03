@@ -12,7 +12,7 @@ static bool is_ident_continue(char c) {
 /* Checks weather `str` is a keyword, and returns its `TokenKind` it is. If not,
  * returns `TokenReserved`. */
 [[nodiscard]]
-static TokenKind check_keyword(const char *str) {
+static TokenKind check_keyword(const_string str) {
   if (string_equals(str, "int")) {
     return TokenInt;
   } else if (string_equals(str, "void")) {

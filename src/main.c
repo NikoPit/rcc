@@ -5,8 +5,9 @@
 #include "lexer/lexer.h"
 #include "utils/fs.h"
 #include "utils/result.h"
+#include "utils/string.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, string argv[]) {
   if (argc < 2) {
     puts("Usage: rcc <file>");
     return EXIT_FAILURE;

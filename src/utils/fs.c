@@ -1,5 +1,6 @@
 #include "fs.h"
 #include "result.h"
+#include "string.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +23,7 @@ static FileSizeResult file_size(FILE *file) {
 
 /* Reads the entire file at `path`. */
 [[nodiscard]]
-ReadFileResult read_file(const char *path) {
+ReadFileResult read_file(const_string path) {
   auto file = fopen(path, "rb");
   char *content = nullptr;
 

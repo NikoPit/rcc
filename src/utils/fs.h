@@ -2,10 +2,11 @@
 #define RCC_FS_H
 
 #include "result.h"
+#include "string.h"
 
-DEF_RESULT(ReadFile, char *, int /* errno */);
+DEF_RESULT(ReadFile, string, int /* errno */);
 
 [[nodiscard]]
-ReadFileResult read_file(const char *path);
+ReadFileResult read_file(const_string path);
 
 #endif

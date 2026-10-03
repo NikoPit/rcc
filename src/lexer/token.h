@@ -1,6 +1,8 @@
 #ifndef RCC_LEXER_TOKEN_H
 #define RCC_LEXER_TOKEN_H
 
+#include "../utils/string.h"
+
 typedef enum {
   TokenVoid,
 
@@ -29,7 +31,7 @@ typedef struct {
   TokenKind kind;
 
   union {
-    char *ident;
+    string ident;
     long long number;
   };
 } Token;

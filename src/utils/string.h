@@ -3,10 +3,13 @@
 
 #include <string.h>
 
-[[nodiscard]]
-bool string_equals(const char *lhs, const char *rhs);
+typedef char *string;
+typedef const char *const_string;
 
 [[nodiscard]]
-char *clone_string(const char *string);
+bool string_equals(const_string lhs, const_string rhs);
+
+[[nodiscard]]
+string clone_string(const_string str);
 
 #endif

@@ -38,7 +38,7 @@ static Token next(LexerState *state) {
 }
 
 [[nodiscard]]
-Token *lex(const char *code) {
+Token *lex(const_string code) {
   LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
   Token *tokens = nullptr;
 

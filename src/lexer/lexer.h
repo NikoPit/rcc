@@ -4,7 +4,7 @@
 #include "token.h"
 
 [[nodiscard]]
-Token *lex(const char *code);
+Token *lex(const_string code);
 void free_tokens(Token *tokens);
 
 #endif
