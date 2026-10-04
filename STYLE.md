@@ -1,0 +1,19 @@
+# RCC Coding Style
+
+- No using `(void)` on function declarations. Use `()` instead.
+- Use `nullptr` instead of `NULL`.
+- Use `[[nodiscard]]` by default on functions.
+- Use the typedef'ed `string` instead of `char *` on strings. Do still use `char *` when it repersents something else then a string.
+- Use `constexpr` on constants instead of `#define`.
+- Keep `constexpr` inside one function's scope if its only used by one function.
+- `snake_case` for functions and variables, including constants, `CamelCase` for structs, enums, and types.
+- Use GNU C23.
+- Use `bool`, `true` and `false`. No `stdbool.h`.
+- Prefer single header libraries for external libraries.
+- Use `const_string` by default unless non-const is needed.
+- Do not put attributes and what its attributing at the same line. Put them at the previous line.
+- Any types other then `auto` on variable declarations are strictly banned other then uninitalized variables. To use a different type, explicitly cast it. E.g.: use `auto i = (size_t)0` instead of `size_t i = 0`. This stays the same for structs and arrays.
+- No `{0}` initalization allowed. `{}` only.
+- No `//` for comments. `/* ... */` only.
+- Use the `array_t(T)` macro to repersent an `stb_ds.h` array type instead of `T *`.
+- Use the `create_array` for creating `stb_ds.h` arrays instead of just using `nullptr`.
