@@ -307,7 +307,7 @@ int main(int argc, string argv[]) {
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
   fputs(
       "make.c requires GNU C23 to run. Please compile make.c with -std=gnu23.",
       stderr);
