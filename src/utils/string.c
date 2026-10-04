@@ -13,16 +13,3 @@ bool string_equals(const_string lhs, const_string rhs) {
     return false;
   }
 }
-
-[[nodiscard]]
-string clone_string(const_string str) {
-  auto len = strlen(str) + 1; /* +1 for the null termiator */
-
-  auto cloned = malloc(len);
-  if (cloned == nullptr)
-    panic("clone_string: out of memory");
-
-  memcpy(cloned, str, len);
-
-  return cloned;
-}

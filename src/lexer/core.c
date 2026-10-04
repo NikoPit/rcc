@@ -45,5 +45,5 @@ string lexer_consume_while(LexerState *state, Cond cond) {
 
   text[size] = '\0';
 
-  return clone_string(text);
+  return strdup(text);
 }

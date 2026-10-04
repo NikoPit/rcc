@@ -9,7 +9,4 @@ typedef const char *const_string;
 [[nodiscard]]
 bool string_equals(const_string lhs, const_string rhs);
 
-[[nodiscard]]
-string clone_string(const_string str);
-
 #endif
