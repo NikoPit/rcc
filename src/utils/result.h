@@ -1,5 +1,4 @@
-#ifndef RCC_RESULT_H
-#define RCC_RESULT_H
+#pragma once
 
 #include "misc.h"
 #include <stdint.h>
@@ -30,5 +29,3 @@ typedef struct {
   (type) { .kind = ResultOk, .ok = value }
 #define RESULT_ERR(type, value)                                                \
   (type) { .kind = ResultErr, .err = value }
-
-#endif

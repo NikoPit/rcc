@@ -1,5 +1,4 @@
-#ifndef RCC_UTILS_ARRAY_H
-#define RCC_UTILS_ARRAY_H
+#pragma once
 
 /* The type of an `stb_ds` array made up of `element_type`.
  *
@@ -11,5 +10,3 @@
  *
  * Makes creating new arrays more explicit and allows usage of `auto`. */
 #define create_array(element_type) (array_t(element_type)) nullptr
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef RCC_LEXER_CORE_H
-#define RCC_LEXER_CORE_H
+#pragma once
 
 #include "../utils/string.h"
 #include "token.h"
@@ -24,5 +23,3 @@ Token payloadless_token(TokenKind kind);
 
 typedef bool Cond(LexerState *);
 string lexer_consume_while(LexerState *state, Cond cond);
-
-#endif

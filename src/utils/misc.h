@@ -1,5 +1,4 @@
-#ifndef RCC_MISC_H
-#define RCC_MISC_H
+#pragma once
 
 #include "../utils/string.h"
 
@@ -8,5 +7,3 @@ void panic(const_string message);
 
 #define new_zeroed(type)                                                       \
   (type) {}
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef RCC_UTILS_STRING_H
-#define RCC_UTILS_STRING_H
+#pragma once
 
 #include <string.h>
 
@@ -8,5 +7,3 @@ typedef const char *const_string;
 
 [[nodiscard]]
 bool string_equals(const_string lhs, const_string rhs);
-
-#endif

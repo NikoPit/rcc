@@ -1,5 +1,4 @@
-#ifndef RCC_LEXER_TOKEN_H
-#define RCC_LEXER_TOKEN_H
+#pragma once
 
 #include "../utils/string.h"
 
@@ -35,5 +34,3 @@ typedef struct {
     long long number;
   };
 } Token;
-
-#endif
