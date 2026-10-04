@@ -7,3 +7,6 @@ curl https://raw.githubusercontent.com/tsoding/nob.h/${NOB_H_VERSION}/nob.h -o l
 
 STB_DS_REV="40adb995abeea13612ad73bda031c90e3c0cf821"
 curl https://raw.githubusercontent.com/nothings/stb/${STB_DS_REV}/stb_ds.h -o libs/stb_ds.h
+
+JSON_H_REV="036d1412e862f5377f32f287109475bedd512a8a"
+curl https://raw.githubusercontent.com/abdimoallim/json/${JSON_H_REV}/json.h -o libs/json.h

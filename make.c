@@ -18,6 +18,8 @@
 #define STB_DS_IMPLEMENTATION
 #include "libs/stb_ds.h"
 
+#include "libs/json.h"
+
 /* Misc */
 
 typedef char *string;
@@ -38,9 +40,50 @@ static bool ends_with(const_string str, const_string suffix) {
          memcmp(str + len - suffix_len, suffix, suffix_len) == 0;
 }
 
+[[nodiscard]]
+static string working_directory() {
+  char cwd[PATH_MAX];
+
+  if (getcwd(cwd, sizeof(cwd)) == nullptr) {
+    perror("make");
+    exit(EXIT_FAILURE);
+  }
+
+  return strdup(cwd);
+}
+
+static void write_file(const_string content, const_string path) {
+  auto file = fopen(path, "wb");
+
+  if (file == nullptr) {
+    perror("make");
+    exit(EXIT_FAILURE);
+  }
+
+  if (fputs(content, file) == EOF) {
+    perror("make");
+    exit(EXIT_FAILURE);
+  }
+
+  if (fclose(file) != 0) {
+    perror("make");
+    exit(EXIT_FAILURE);
+  }
+}
+
+/* Free an array made out of strings. Strdup'd strings need to be freed
+ * manually. */
+static void free_string_array(const string *array) {
+  for (ptrdiff_t i = 0; i < arrlen(array); i++) {
+    free(array[i]);
+  }
+
+  arrfree(array);
+}
+
 /* Command parsing */
 
-typedef enum { Make, Run } Command;
+typedef enum { Make, Run, CompileCommands } Command;
 
 [[nodiscard]]
 static Command parse_cmd_string(string cmd_string) {
@@ -48,6 +91,8 @@ static Command parse_cmd_string(string cmd_string) {
 
   if (string_equals(cmd_string, "run")) {
     return Run;
+  } else if (string_equals(cmd_string, "compile_commands")) {
+    return CompileCommands;
   } else {
     fputs(usage, stderr);
     exit(EXIT_FAILURE);
@@ -109,10 +154,7 @@ static void make() {
   if (!cmd_run(&cmd))
     exit(EXIT_FAILURE);
 
-  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
-    free((void *)sources[i]); /* Free the strdup'ed string */
-  }
-  arrfree(sources);
+  free_string_array(sources);
 }
 
 [[nodiscard]]
@@ -192,6 +234,44 @@ err:
   exit(EXIT_FAILURE);
 }
 
+static void compile_commands() {
+  auto sources = collect_sources();
+  auto json = json_create_array(); /* root */
+
+  auto cwd = working_directory();
+
+  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
+    auto entry = json_create_object();
+
+    json_object_set(entry, "file", json_create_string(sources[i]));
+    json_object_set(entry, "output", json_create_string(output_path));
+    json_object_set(entry, "directory", json_create_string(cwd));
+
+    Cmd cmd = {0};
+    append_base_flags(&cmd);
+    cmd_append(&cmd, sources[i]);
+
+    auto arguments = json_create_array();
+    for (size_t j = 0; j < cmd.count; j++) {
+      json_array_append(arguments, json_create_string(cmd.items[j]));
+    }
+    json_object_set(entry, "arguments", arguments);
+
+    json_array_append(json, entry);
+
+    cmd_free(cmd);
+  }
+
+  constexpr constexpr_string compile_commands_path = "compile_commands.json";
+  auto compile_commands = json_serialize(json, false);
+  write_file(compile_commands, compile_commands_path);
+
+  free(cwd);
+  free_string_array(sources);
+  free(compile_commands);
+  json_free(json);
+}
+
 /* Entry */
 
 int main(int argc, string argv[]) {
@@ -203,6 +283,9 @@ int main(int argc, string argv[]) {
     break;
   case Run:
     run(argc, argv);
+    break;
+  case CompileCommands:
+    compile_commands();
     break;
   }
 

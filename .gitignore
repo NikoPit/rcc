@@ -2,3 +2,7 @@
 /rcc
 /make
 /.direnv
+
+# Compile commands
+/.cache
+/compile_commands.json
