@@ -17,3 +17,4 @@
 - No `//` for comments. `/* ... */` only.
 - Use the `array_t(T)` macro to repersent an `stb_ds.h` array type instead of `T *`.
 - Use the `create_array` for creating `stb_ds.h` arrays instead of just using `nullptr`.
+- No header guards. Use `#pragma once`.
