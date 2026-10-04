@@ -1,6 +1,7 @@
 #ifndef RCC_RESULT_H
 #define RCC_RESULT_H
 
+#include "misc.h"
 #include <stdint.h>
 
 typedef enum { ResultOk, ResultErr } ResultKind;
@@ -9,7 +10,7 @@ typedef struct {
   uint8_t _;
 } Empty;
 
-#define MK_EMPTY ((Empty){0})
+#define MK_EMPTY (new_zeroed(Empty))
 
 #define DEF_RESULT(name, ok_type, err_type)                                    \
   typedef struct {                                                             \

@@ -155,7 +155,7 @@ static void append_base_flags(Cmd *cmd) {
 }
 
 static void make() {
-  auto cmd = (Cmd){0};
+  auto cmd = new_zeroed(Cmd);
 
   append_base_flags(&cmd);
 
@@ -260,7 +260,7 @@ static void compile_commands() {
     json_object_set(entry, "output", json_create_string(output_path));
     json_object_set(entry, "directory", json_create_string(cwd));
 
-    auto cmd = (Cmd){0};
+    auto cmd = new_zeroed(Cmd);
     append_base_flags(&cmd);
     cmd_append(&cmd, sources[i]);
 
