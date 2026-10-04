@@ -76,7 +76,7 @@ static bool push_source(Nob_Walk_Entry entry) {
 }
 
 [[nodiscard]]
-static const string * /* Array of strings */ collect_sources(void) {
+static const string * /* Array of strings */ collect_sources() {
   constexpr constexpr_string src_dir = "src/";
 
   const string *sources = nullptr;
