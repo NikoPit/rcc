@@ -110,7 +110,7 @@ static Command parse_cmd(int argc, string argv[]) {
 
 /* Command impls */
 
-static constexpr char output_path[] = "rcc";
+static constexpr constexpr_string output_path = "rcc";
 
 [[nodiscard]]
 static bool push_source(Nob_Walk_Entry entry) {
