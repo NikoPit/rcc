@@ -56,14 +56,14 @@ static bool ends_with(const_string str, const_string suffix) {
 
 [[nodiscard]]
 static string working_directory() {
-  auto cwd = new_zeroed(char[PATH_MAX]);
+  auto cwd = getcwd(nullptr, 0);
 
-  if (getcwd(cwd, sizeof(cwd)) == nullptr) {
+  if (cwd == nullptr) {
     perror("make");
     exit(EXIT_FAILURE);
   }
 
-  return strdup(cwd);
+  return cwd;
 }
 
 static void write_file(const_string content, const_string path) {
