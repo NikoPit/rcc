@@ -35,8 +35,7 @@ Token lex_ident(LexerState *state) {
 
   auto kind = check_keyword(ident);
   if (kind == TokenReserved /* Is not a keyword */) {
-    Token token = {.kind = TokenIdent, .ident = ident};
-    return token;
+    return (Token){.kind = TokenIdent, .ident = ident};
   } else {
     free(ident);
     return payloadless_token(kind);

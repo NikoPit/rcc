@@ -24,15 +24,12 @@ char lexer_consume(LexerState *state) {
 
 [[nodiscard]]
 Token payloadless_token(TokenKind kind) {
-  Token token = {.kind = kind};
-
-  return token;
+  return (Token){.kind = kind};
 }
 
 string lexer_consume_while(LexerState *state, Cond cond) {
   constexpr auto buf_size = 256;
-
-  char text[buf_size];
+  auto text = new_zeroed(char[buf_size]);
   auto size = 0;
 
   while (!lexer_is_end(state) && cond(state)) {

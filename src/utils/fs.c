@@ -25,7 +25,7 @@ static FileSizeResult file_size(FILE *file) {
 [[nodiscard]]
 ReadFileResult read_file(const_string path) {
   auto file = fopen(path, "rb");
-  char *content = nullptr;
+  auto content = (char *)nullptr;
 
   if (file == nullptr)
     goto err;

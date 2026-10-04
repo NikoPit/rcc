@@ -12,7 +12,7 @@ static bool lncw_cond(LexerState *state) {
 Token lex_number(LexerState *state) {
   auto number_str = lexer_consume_while(state, lncw_cond);
 
-  Token token = {.kind = TokenNumber, .number = atoll(number_str)};
+  auto token = (Token){.kind = TokenNumber, .number = atoll(number_str)};
   free(number_str);
   return token;
 }

@@ -33,6 +33,9 @@
  * Makes creating new arrays more explicit and allows usage of `auto`. */
 #define create_array(element_type) (array_t(element_type)) nullptr
 
+#define new_zeroed(type)                                                       \
+  (type) {}
+
 typedef char *string;
 typedef const char *const_string;
 typedef char constexpr_string[];
@@ -53,7 +56,7 @@ static bool ends_with(const_string str, const_string suffix) {
 
 [[nodiscard]]
 static string working_directory() {
-  char cwd[PATH_MAX];
+  auto cwd = new_zeroed(char[PATH_MAX]);
 
   if (getcwd(cwd, sizeof(cwd)) == nullptr) {
     perror("make");
@@ -85,7 +88,7 @@ static void write_file(const_string content, const_string path) {
 /* Free an array made out of strings. Strdup'd strings need to be freed
  * manually. */
 static void free_string_array(const array_t(string) array) {
-  for (ptrdiff_t i = 0; i < arrlen(array); i++) {
+  for (auto i = (ptrdiff_t)0; i < arrlen(array); i++) {
     free(array[i]);
   }
 
@@ -152,12 +155,12 @@ static void append_base_flags(Cmd *cmd) {
 }
 
 static void make() {
-  Cmd cmd = {0};
+  auto cmd = (Cmd){0};
 
   append_base_flags(&cmd);
 
   auto sources = collect_sources();
-  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
+  for (auto i = (ptrdiff_t)0; i < arrlen(sources); i++) {
     nob_cmd_append(&cmd, sources[i]);
   }
 
@@ -181,7 +184,7 @@ static int wait_status_to_code(int status) {
 
 extern string *environ;
 static void run(int main_argc, string main_argv[]) {
-  string spawned_argv[256];
+  auto spawned_argv = new_zeroed(string[256]);
   auto spawned_argc = 0;
 
   auto duped_output_path = strdup(output_path);
@@ -250,14 +253,14 @@ static void compile_commands() {
 
   auto cwd = working_directory();
 
-  for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
+  for (auto i = (ptrdiff_t)0; i < arrlen(sources); i++) {
     auto entry = json_create_object();
 
     json_object_set(entry, "file", json_create_string(sources[i]));
     json_object_set(entry, "output", json_create_string(output_path));
     json_object_set(entry, "directory", json_create_string(cwd));
 
-    Cmd cmd = {0};
+    auto cmd = (Cmd){0};
     append_base_flags(&cmd);
     cmd_append(&cmd, sources[i]);
 

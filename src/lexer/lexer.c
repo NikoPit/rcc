@@ -41,7 +41,7 @@ static Token next(LexerState *state) {
 
 [[nodiscard]]
 array_t(Token) lex(const_string code) {
-  LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
+  auto state = (LexerState){.code = code, .code_len = strlen(code), .pos = 0};
   auto tokens = create_array(Token);
 
   while (true) {
@@ -57,7 +57,7 @@ array_t(Token) lex(const_string code) {
 
 void free_tokens(array_t(Token) tokens) {
   /* Free the cloned idents */
-  for (ptrdiff_t i = 0; i < arrlen(tokens); i++) {
+  for (auto i = (ptrdiff_t)0; i < arrlen(tokens); i++) {
     auto token = tokens[i];
     if (token.kind == TokenIdent)
       free(token.ident);
