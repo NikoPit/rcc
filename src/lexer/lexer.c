@@ -11,6 +11,8 @@
 #include "number.h"
 #include "token.h"
 
+#include "../utils/misc.h"
+
 #include "../../libs/stb_ds.h"
 
 [[nodiscard]]
@@ -38,9 +40,9 @@ static Token next(LexerState *state) {
 }
 
 [[nodiscard]]
-Token *lex(const_string code) {
+array_t(Token) lex(const_string code) {
   LexerState state = {.code = code, .code_len = strlen(code), .pos = 0};
-  Token *tokens = nullptr;
+  auto tokens = create_array(Token);
 
   while (true) {
     auto next_token = next(&state);
@@ -53,7 +55,7 @@ Token *lex(const_string code) {
   return tokens;
 }
 
-void free_tokens(Token *tokens) {
+void free_tokens(array_t(Token) tokens) {
   /* Free the cloned idents */
   for (ptrdiff_t i = 0; i < arrlen(tokens); i++) {
     auto token = tokens[i];

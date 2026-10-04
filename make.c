@@ -22,6 +22,17 @@
 
 /* Misc */
 
+/* The type of an `stb_ds` array made up of `element_type`.
+ *
+ * Makes array types more explicit, to avoid confusion betwean normal pointer
+ * types. */
+#define array_t(element_type) element_type *
+
+/* Creates an `stb_ds` array made out of `element_type`.
+ *
+ * Makes creating new arrays more explicit and allows usage of `auto`. */
+#define create_array(element_type) (array_t(element_type)) nullptr
+
 typedef char *string;
 typedef const char *const_string;
 typedef char constexpr_string[];
@@ -73,7 +84,7 @@ static void write_file(const_string content, const_string path) {
 
 /* Free an array made out of strings. Strdup'd strings need to be freed
  * manually. */
-static void free_string_array(const string *array) {
+static void free_string_array(const array_t(string) array) {
   for (ptrdiff_t i = 0; i < arrlen(array); i++) {
     free(array[i]);
   }
@@ -114,17 +125,16 @@ static constexpr constexpr_string output_path = "rcc";
 
 [[nodiscard]]
 static bool push_source(Nob_Walk_Entry entry) {
-  string ** /* Pointer to array of strings */ sources = entry.data;
+  auto sources = (array_t(string) *)entry.data;
   if (entry.type == FILE_REGULAR && ends_with(entry.path, ".c"))
     arrput(*sources, strdup(entry.path));
   return true;
 }
 
-[[nodiscard]]
-static const string * /* Array of strings */ collect_sources() {
+[[nodiscard]] static const array_t(string) collect_sources() {
   constexpr constexpr_string src_dir = "src/";
 
-  const string *sources = nullptr;
+  auto sources = create_array(string);
 
   if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
     fputs("Failed to collect sources", stderr);
