@@ -89,13 +89,17 @@ static const string * /* Array of strings */ collect_sources(void) {
   return sources;
 }
 
+static void append_base_flags(Cmd *cmd) {
+  nob_cc(cmd);
+  nob_cc_flags(cmd);
+  nob_cc_output(cmd, output_path);
+  nob_cmd_append(cmd, "-std=gnu23");
+}
+
 static void make() {
   Cmd cmd = {0};
 
-  nob_cc(&cmd);
-  nob_cc_flags(&cmd);
-  nob_cc_output(&cmd, output_path);
-  nob_cmd_append(&cmd, "-std=gnu23");
+  append_base_flags(&cmd);
 
   auto sources = collect_sources();
   for (ptrdiff_t i = 0; i < arrlen(sources); i++) {
