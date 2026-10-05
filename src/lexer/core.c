@@ -15,6 +15,7 @@ char lexer_peek(LexerState *state) {
   return state->code[state->pos];
 }
 
+/* Discardable */
 char lexer_consume(LexerState *state) {
   if (lexer_is_end(state))
     panic("lexer: consume: out of bounds");
@@ -27,6 +28,7 @@ Token payloadless_token(TokenKind kind) {
   return (Token){.kind = kind};
 }
 
+/* Discardable */
 string lexer_consume_while(LexerState *state, Cond cond) {
   constexpr auto buf_size = 256;
   auto text = new_zeroed(char[buf_size]);
