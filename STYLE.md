@@ -19,3 +19,4 @@
 - Use the `create_array` for creating `stb_ds.h` arrays instead of just using `nullptr`.
 - No header guards. Use `#pragma once`.
 - Prefer `puts` over `printf` with a `\n`.
+- No `for(;;)`. Use `while(true)`.
