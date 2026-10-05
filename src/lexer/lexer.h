@@ -5,5 +5,5 @@
 #include "token.h"
 
 [[nodiscard]]
-array_t(Token) lex(CompileContext *ctx);
+array_t(Token) lex(const CompileContext *ctx);
 void free_tokens(array_t(Token) tokens);

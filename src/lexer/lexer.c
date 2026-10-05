@@ -40,7 +40,7 @@ static Token next(LexerState *state) {
 }
 
 [[nodiscard]]
-array_t(Token) lex(CompileContext *ctx) {
+array_t(Token) lex(const CompileContext *ctx) {
   auto state = (LexerState){.ctx = ctx, .pos = 0};
   auto tokens = create_array(Token);
 
