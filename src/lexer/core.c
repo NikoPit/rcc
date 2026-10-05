@@ -4,7 +4,7 @@
 
 [[nodiscard]]
 bool lexer_is_end(LexerState *state) {
-  return state->pos >= state->code_len;
+  return state->pos >= state->ctx->source_len;
 }
 
 [[nodiscard]]
@@ -12,7 +12,7 @@ char lexer_peek(LexerState *state) {
   if (lexer_is_end(state))
     panic("lexer: peek: out of bounds");
 
-  return state->code[state->pos];
+  return state->ctx->source[state->pos];
 }
 
 /* Discardable */
@@ -20,7 +20,7 @@ char lexer_consume(LexerState *state) {
   if (lexer_is_end(state))
     panic("lexer: consume: out of bounds");
 
-  return state->code[state->pos++];
+  return state->ctx->source[state->pos++];
 }
 
 [[nodiscard]]

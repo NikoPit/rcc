@@ -11,9 +11,9 @@
 #include "number.h"
 #include "token.h"
 
-#include "../utils/misc.h"
-
 #include "../../libs/stb_ds.h"
+#include "../misc.h"
+#include "../utils/misc.h"
 
 [[nodiscard]]
 static bool should_skip(char c) {
@@ -40,8 +40,8 @@ static Token next(LexerState *state) {
 }
 
 [[nodiscard]]
-array_t(Token) lex(const_string code) {
-  auto state = (LexerState){.code = code, .code_len = strlen(code), .pos = 0};
+array_t(Token) lex(CompileContext *ctx) {
+  auto state = (LexerState){.ctx = ctx, .pos = 0};
   auto tokens = create_array(Token);
 
   while (true) {

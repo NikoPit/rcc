@@ -1,12 +1,13 @@
 #pragma once
 
+#include "../misc.h"
 #include "../utils/string.h"
 #include "token.h"
+
 #include <stdlib.h>
 
 typedef struct {
-  const_string code;
-  size_t code_len;
+  const CompileContext *ctx;
   size_t pos;
 } LexerState;
 

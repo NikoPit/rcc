@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "lexer/lexer.h"
+#include "misc.h"
 #include "utils/fs.h"
 #include "utils/result.h"
 #include "utils/string.h"
@@ -23,7 +24,11 @@ int main(int argc, string argv[]) {
 
   auto file_content = file_content_res.ok;
 
-  auto tokens = lex(file_content);
+  auto ctx = (CompileContext){.source = file_content,
+                              .source_len = strlen(file_content),
+                              .file_name = argv[1]};
+
+  auto tokens = lex(&ctx);
   free(file_content);
 
   (void)tokens;
