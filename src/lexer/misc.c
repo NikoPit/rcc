@@ -8,7 +8,6 @@ Token lex_misc(LexerState *state) {
     return payloadless_token(TokenLeftBrace);
   case '}':
     return payloadless_token(TokenRightBrace);
-    break;
   case '(':
     return payloadless_token(TokenLeftParen);
   case ')':
