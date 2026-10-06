@@ -122,30 +122,31 @@ static Command parse_cmd(int argc, string argv[]) {
   }
 }
 
-/* Command impls */
-
-static constexpr constexpr_string output_path = "rcc";
-
 [[nodiscard]]
-static bool push_source(Nob_Walk_Entry entry) {
+static bool collect_c_files_push_file(Nob_Walk_Entry entry) {
   auto sources = (array_t(string) *)entry.data;
   if (entry.type == FILE_REGULAR && ends_with(entry.path, ".c"))
     arrput(*sources, strdup(entry.path));
   return true;
 }
 
-[[nodiscard]] static const array_t(string) collect_sources() {
-  constexpr constexpr_string src_dir = "src/";
-
+/* Collect all of the `.c` files under `dir`. */
+[[nodiscard]]
+static array_t(string) collect_c_files(const_string dir) {
   auto sources = create_array(string);
 
-  if (!nob_walk_dir(src_dir, push_source, .data = &sources)) {
+  if (!nob_walk_dir(dir, collect_c_files_push_file, .data = &sources)) {
     fputs("Failed to collect sources", stderr);
     exit(EXIT_FAILURE);
   }
 
   return sources;
 }
+
+/* Command impls */
+
+static constexpr constexpr_string output_path = "rcc";
+static constexpr constexpr_string src_dir = "src/";
 
 static void append_base_flags(Cmd *cmd) {
   nob_cc(cmd);
@@ -159,7 +160,7 @@ static void make() {
 
   append_base_flags(&cmd);
 
-  auto sources = collect_sources();
+  auto sources = collect_c_files(src_dir);
   for (auto i = (ptrdiff_t)0; i < arrlen(sources); i++) {
     nob_cmd_append(&cmd, sources[i]);
   }
@@ -248,7 +249,7 @@ err:
 }
 
 static void compile_commands() {
-  auto sources = collect_sources();
+  auto sources = collect_c_files(src_dir);
   auto json = json_create_array(); /* root */
 
   auto cwd = working_directory();
