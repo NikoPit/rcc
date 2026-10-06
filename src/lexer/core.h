@@ -26,3 +26,6 @@ Token payloadless_token(TokenKind kind);
 typedef bool Cond(LexerState *);
 /* Discardable */
 string lexer_consume_while(LexerState *state, Cond cond);
+
+[[nodiscard]]
+size_t previous_pos(LexerState *state);

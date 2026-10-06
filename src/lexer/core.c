@@ -46,3 +46,8 @@ string lexer_consume_while(LexerState *state, Cond cond) {
 
   return strdup(text);
 }
+
+[[nodiscard]]
+size_t previous_pos(LexerState *state) {
+  return state->pos - 1;
+}

@@ -1,5 +1,6 @@
 #include "misc.h"
-#include "../utils/misc.h"
+#include "../diagnostic.h"
+#include "core.h"
 
 [[nodiscard]]
 Token lex_misc(LexerState *state) {
@@ -15,6 +16,8 @@ Token lex_misc(LexerState *state) {
   case ';':
     return payloadless_token(TokenSemicolon);
   default:
-    panic("lexer: unknown token");
+    auto span =
+        (Span){.start = previous_pos(state) /* Already consumed */, .len = 1};
+    diag_error(state->ctx, span, "Unknown token");
   }
 }
